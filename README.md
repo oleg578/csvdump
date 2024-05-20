@@ -17,3 +17,6 @@ go run . -port 3307 -user admin -password admin -database hr -table employee > d
 - -database string database name
 - -table string table name
 
+## Standard way to get csv file export with header
+
+- see sql/csv_dump.sql
