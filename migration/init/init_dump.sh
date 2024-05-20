@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 mkdir -p /tmp/dump
-chmod 777 /tmp/dump
+chown mysql:mysql /tmp/dump
