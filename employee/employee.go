@@ -6,11 +6,12 @@ import (
 	_ "embed"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"strconv"
 	"time"
 )
 
 type Employee struct {
-	ID        string `json:"id" faker:"uuid_hyphenated"`
+	ID        int64  `json:"id" faker:"-"`
 	FirstName string `json:"first_name" faker:"first_name"`
 	LastName  string `json:"last_name" faker:"last_name"`
 	Email     string `json:"email" faker:"email"`
@@ -19,7 +20,7 @@ type Employee struct {
 
 func (emp *Employee) ToSlice() []string {
 	return []string{
-		emp.ID,
+		strconv.Itoa(int(emp.ID)),
 		emp.FirstName,
 		emp.LastName,
 		emp.Email,
@@ -40,18 +41,17 @@ func (emp *Employee) Save(dsn string) error {
 	defer func(db *sql.DB) {
 		_ = db.Close()
 	}(db)
-	_, err = db.ExecContext(ctx, SaveSql,
-		emp.ID,
+	var res sql.Result
+	res, err = db.ExecContext(ctx, SaveSql,
 		emp.FirstName,
 		emp.LastName,
 		emp.Email,
 		emp.Phone,
-		emp.FirstName,
-		emp.LastName,
 		emp.Email,
 		emp.Phone)
 	if err != nil {
 		return fmt.Errorf("emp save error: %s" + err.Error())
 	}
-	return nil
+	emp.ID, err = res.LastInsertId()
+	return err
 }
