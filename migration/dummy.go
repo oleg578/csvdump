@@ -32,10 +32,6 @@ func main() {
 
 	for i := 1; i <= 1000; i++ {
 		emp := randomEmp()
-		if emp.ID == "" {
-			_, _ = fmt.Fprintf(os.Stderr, "%v\n", "empty employee ID")
-			continue
-		}
 		if err := emp.Save(*dsn); err != nil {
 			_, _ = fmt.Fprintf(os.Stderr, "%v\n", err.Error())
 		}
@@ -49,7 +45,7 @@ func randomEmp() employee.Employee {
 	firstName := faker.FirstName()
 	lastName := faker.LastName()
 	return employee.Employee{
-		ID:        faker.UUIDHyphenated(),
+		ID:        0,
 		FirstName: firstName,
 		LastName:  lastName,
 		Email: strings.Join(
