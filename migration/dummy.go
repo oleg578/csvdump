@@ -30,7 +30,7 @@ func main() {
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
 
-	for i := 1; i <= 1000; i++ {
+	for i := 1; i <= 1000000; i++ {
 		emp := randomEmp()
 		if err := emp.Save(*dsn); err != nil {
 			_, _ = fmt.Fprintf(os.Stderr, "%v\n", err.Error())
