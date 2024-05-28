@@ -50,7 +50,7 @@ func (emp *Employee) Save(dsn string) error {
 		emp.Email,
 		emp.Phone)
 	if err != nil {
-		return fmt.Errorf("emp save error: %s" + err.Error())
+		return fmt.Errorf("emp save error: %v", err)
 	}
 	emp.ID, err = res.LastInsertId()
 	return err
