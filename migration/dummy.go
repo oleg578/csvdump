@@ -32,10 +32,12 @@ func main() {
 
 	for i := 1; i <= 1000000; i++ {
 		emp := randomEmp()
-		if err := emp.Save(*dsn); err != nil {
+		err := emp.Save(*dsn)
+		if err != nil {
 			_, _ = fmt.Fprintf(os.Stderr, "%v\n", err.Error())
+			//continue
 		}
-		_ = writer.Write(emp.ToSlice())
+		//_ = writer.Write(emp.ToSlice())
 	}
 
 	fmt.Println("CSV file successfully generated.")
